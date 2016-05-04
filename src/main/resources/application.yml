@@ -1,16 +1,10 @@
-security:
-  oauth2:
-    client:
-      clientId: 
-      clientSecret: 
-      accessTokenUri: 
-      userAuthorizationUri: 
-      tokenName: 
-      authenticationScheme: query
-      clientAuthenticationScheme: form
-    resource:
-      userInfoUri: 
 spring:
-  resources:
-    chain:
-      enabled: true
+  application:
+    name: demo
+    
+management:
+  context_path: /admin
+  
+security:
+  user:
+    password: password
