@@ -37,7 +37,6 @@ import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoT
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -49,8 +48,6 @@ import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResour
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
-import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CsrfFilter;
@@ -93,20 +90,6 @@ public class SocialApplication extends WebSecurityConfigurerAdapter {
 			.and().addFilterAfter(this.csrfHeaderFilter(), CsrfFilter.class)
 			.addFilterBefore(this.ssoFilter(), BasicAuthenticationFilter.class);
 		// @formatter:on
-	}
-
-	@Configuration
-	@EnableResourceServer
-	protected static class ResourceServerConfiguration
-			extends ResourceServerConfigurerAdapter {
-		@Override
-		public void configure(HttpSecurity http) throws Exception {
-			// @formatter:off
-			http
-				.antMatcher("/me")
-				.authorizeRequests().anyRequest().authenticated();
-			// @formatter:on
-		}
 	}
 
 	public static void main(String[] args) {
