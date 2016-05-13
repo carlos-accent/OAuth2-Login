@@ -69,6 +69,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		return principal;
 	}
 
+	@RequestMapping("/secure")
+	public Principal secure(Principal principal){
+		return principal;
+	}
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		// @formatter:off

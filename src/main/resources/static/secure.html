@@ -14,28 +14,11 @@
     src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body ng-app="app" ng-controller="home as home">
-    <h1>Login</h1>
-    <div class="container" ng-show="!home.authenticated">
+
+    <div class="container">
+        Hello: <span ng-bind="hello.user"></span>
         <div>
-            With Facebook: <a href="/login/facebook">click here</a>
-        </div>
-        <div>
-            With Github: <a href="/login/github">click here</a>
-        </div>
-        <div>
-            With Google: <a href="/login/google">click here</a>
-        </div>
-        <div class="form-bottom">
-            <a type="submit" class="btn" href="@{secure()}"><strong>Renders</strong></a>
-        </div>
-    </div>
-    <div class="container" ng-show="home.authenticated">
-        Logged in as: <span ng-bind="home.user"></span>
-        <div class="form-bottom">
-            <a type="submit" class="btn" href="@{secure()}"><strong>Renders</strong></a>
-        </div>
-        <div>
-            <button ng-click="home.logout()" class="btn btn-primary">Logout</button>
+            <button ng-click="hello.logout()" class="btn btn-primary">Logout</button>
         </div>
     </div>
     <script type="text/javascript" src="/webjars/angularjs/angular.min.js"></script>
@@ -45,9 +28,9 @@
                 .config(
                         function($httpProvider) {
                             $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-                        }).controller("home", function($http, $location) {
+                        }).controller("hello", function($http, $location) {
                     var self = this;
-                    $http.get("/user").success(function(data) {
+                    $http.get("/secure").success(function(data) {
                         if (data.name) {
                             self.user = data.name;
                             self.authenticated = true;
