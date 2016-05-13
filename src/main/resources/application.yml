@@ -10,6 +10,16 @@ facebook:
   resource:
     userInfoUri: https://graph.facebook.com/me
     
+google:
+  client:
+    clientId: 249723580866-8316luu7nmllohciei6mktq4vuq59p9j.apps.googleusercontent.com
+    clientSecret: ZPKRSDC8yjtsV9n6zodhZV3Y
+    accessTokenUri: https://accounts.google.com/o/oauth2/token
+    userAuthorizationUri: https://accounts.google.com/o/oauth2/auth
+    clientAuthenticationScheme: form
+    scope: profile
+  resource:
+    userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
 github:
   client:
     clientId: 5bef19567dd573f85ff6
