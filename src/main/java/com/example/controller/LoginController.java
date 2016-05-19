@@ -21,4 +21,11 @@ public class LoginController {
 		LOG.info("Received token:" + token);
 		return "Login successful";
 	}
+
+//	@RequestMapping(value = "/secure-test", method = RequestMethod.GET)
+//	public ModelAndView securedAccess() {
+//		ModelAndView mav = new ModelAndView("secure");
+//		return mav;
+//	}
+
 }

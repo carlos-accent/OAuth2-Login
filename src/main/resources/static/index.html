@@ -25,15 +25,15 @@
         <div>
             With Google: <a href="/login/google">click here</a>
         </div>
-        <div class="form-bottom">
-            <a type="submit" class="btn" href="@{secure()}"><strong>Renders</strong></a>
-        </div>
+        <div>
+             <p>Click <a href="/secure">here</a> to see a greeting.</p>
+       </div>
     </div>
     <div class="container" ng-show="home.authenticated">
         Logged in as: <span ng-bind="home.user"></span>
-        <div class="form-bottom">
-            <a type="submit" class="btn" href="@{secure()}"><strong>Renders</strong></a>
-        </div>
+        <div>
+             <p>Click <a href="/secure">here</a> to see a greeting.</p>
+       </div>
         <div>
             <button ng-click="home.logout()" class="btn btn-primary">Logout</button>
         </div>
@@ -66,6 +66,13 @@
                         }).error(function(data) {
                             console.log("Logout failed")
                             self.authenticated = false;
+                        });
+                    };
+                    self.render = function() {
+                        $http.post('render', {}).success(function() {
+                            $location.path("/");
+                        }).error(function(data) {
+                            console.log("render failed")
                         });
                     };
                 });
