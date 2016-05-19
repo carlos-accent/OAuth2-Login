@@ -51,15 +51,19 @@ import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.filter.CompositeFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
 @SpringBootApplication
 @RestController
 @EnableOAuth2Client
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+
 
 	@Autowired
 	OAuth2ClientContext oauth2ClientContext;
@@ -69,9 +73,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		return principal;
 	}
 
-	@RequestMapping("/secure")
-	public Principal secure(Principal principal){
-		return principal;
+	@RequestMapping(value = "/secure-test", method = RequestMethod.GET)
+	public ModelAndView securedAccess() {
+		ModelAndView mav = new ModelAndView("static/secure.html");
+		return mav;
 	}
 
 	@Override
@@ -82,6 +87,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/", "/login**", "/webjars/**").permitAll()
 				.anyRequest().authenticated()
 			.and().exceptionHandling().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/"))
+            .and()
+            	.formLogin()
+            		.loginPage("/login")
+            		.permitAll()
+            .and()
+            	.logout()
+            .permitAll()
 			.and().logout().logoutSuccessUrl("/").permitAll()
 			.and().csrf().csrfTokenRepository(this.csrfTokenRepository())
 			.and().addFilterAfter(this.csrfHeaderFilter(), CsrfFilter.class)
