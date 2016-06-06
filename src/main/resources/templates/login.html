@@ -14,18 +14,8 @@
     src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body ng-app="app" ng-controller="home as home">
-    <h1>OAuth Login Page</h1>
+    <h1>Login</h1>
     <div class="container" ng-show="!home.authenticated">
-        <button ng-click="home.login()" class="btn btn-primary">Login</button>
-    </div>
-    <div class="container" ng-show="home.authenticated">
-        Logged in as: <span ng-bind="home.user"></span>
-        <div>
-            <button ng-click="home.logout()" class="btn btn-primary">Logout</button>
-            <button ng-click="home.userDetails()" class="btn btn-primary">User Details</button>
-        </div>
-    </div>
-    <div class="container" ng-show="home.showLogin">
         <div>
             With Facebook: <a href="/login/facebook">click here</a>
         </div>
@@ -35,9 +25,11 @@
         <div>
             With Google: <a href="/login/google">click here</a>
         </div>
-    </div><div class="container" ng-show="home.userDetails()">
+    </div>
+    <div class="container" ng-show="home.authenticated">
+        Logged in as: <span ng-bind="home.user"></span>
         <div>
-            You are logged with: <span ng-bind="home.user"></span>
+            <button ng-click="home.logout()" class="btn btn-primary">Logout</button>
         </div>
     </div>
     <script type="text/javascript" src="/webjars/angularjs/angular.min.js"></script>
@@ -49,13 +41,12 @@
                             $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
                         }).controller("home", function($http, $location) {
                     var self = this;
-                    self.showLogin = false;
                     
                     $http.get("/user").success(function(data) {
                         if (data.name) {
                             self.user = data.name;
                             self.authenticated = true;
-                        }  else {
+                        } else {
                             self.user = "N/A";
                             self.authenticated = false;
                         }
@@ -63,7 +54,6 @@
                         self.user = "N/A";
                         self.authenticated = false;
                     });
-                    
                     self.logout = function() {
                         $http.post('logout', {}).success(function() {
                             self.authenticated = false;
@@ -71,19 +61,6 @@
                         }).error(function(data) {
                             console.log("Logout failed")
                             self.authenticated = false;
-                        });
-                    };
-                 /*     self.userDetails = function() {
-                        $http.post('XXXXX', {}).success(function() {
-                            $location.path("/");
-                        }).error(function(data) {
-                            console.log("Logout failed")
-                            self.authenticated = false;
-                        });
-                    }; */ 
-                    self.login = function() {
-                        $http.post('logout', {}).success(function() {
-                            self.showLogin = true;
                         });
                     };
                     self.render = function() {
@@ -94,6 +71,6 @@
                         });
                     };
                 });
-    </script>    
+    </script>
 </body>
 </html>

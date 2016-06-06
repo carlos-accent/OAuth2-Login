@@ -16,7 +16,6 @@
 package com.example;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +26,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -51,11 +51,9 @@ import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.filter.CompositeFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
 @SpringBootApplication
@@ -68,15 +66,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	OAuth2ClientContext oauth2ClientContext;
 
-	@RequestMapping("/user")
-	public Principal user(Principal principal) {
-		return principal;
-	}
+//	@RequestMapping("/user")
+//	public Principal user(Principal principal) {
+//		return principal;
+//	}
 
-	@RequestMapping(value = "/secure-test", method = RequestMethod.GET)
-	public ModelAndView securedAccess() {
-		ModelAndView mav = new ModelAndView("static/secure.html");
-		return mav;
+	@RequestMapping(value = "/user")
+	public String email(JSONObject jsonObject){
+       String m = jsonObject.toString();
+       return m;
 	}
 
 	@Override
@@ -84,9 +82,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// @formatter:off
 		http.antMatcher("/**")
 			.authorizeRequests()
-				.antMatchers("/", "/login**", "/webjars/**").permitAll()
+				.antMatchers("/", "/login**", "/webjars/**","/log").permitAll()
 				.anyRequest().authenticated()
-			.and().exceptionHandling().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/"))
+			.and().exceptionHandling().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
             .and()
             	.formLogin()
             		.loginPage("/login")

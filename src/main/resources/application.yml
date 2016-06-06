@@ -7,6 +7,7 @@ facebook:
     tokenName: oauth_token
     authenticationScheme: query
     clientAuthenticationScheme: form
+    scope: public_profile, email
   resource:
     userInfoUri: https://graph.facebook.com/me
     
@@ -17,7 +18,7 @@ google:
     accessTokenUri: https://accounts.google.com/o/oauth2/token
     userAuthorizationUri: https://accounts.google.com/o/oauth2/auth
     clientAuthenticationScheme: form
-    scope: profile
+    scope: profile, email
   resource:
     userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
 github:
@@ -27,6 +28,7 @@ github:
     accessTokenUri: https://github.com/login/oauth/access_token
     userAuthorizationUri: https://github.com/login/oauth/authorize
     clientAuthenticationScheme: form
+    scope: user:email
   resource:
     userInfoUri: https://api.github.com/user
 
