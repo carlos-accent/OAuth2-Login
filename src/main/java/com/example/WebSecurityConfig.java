@@ -16,6 +16,7 @@
 package com.example;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -61,21 +61,15 @@ import org.springframework.web.util.WebUtils;
 @EnableOAuth2Client
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-
-
 	@Autowired
 	OAuth2ClientContext oauth2ClientContext;
 
-//	@RequestMapping("/user")
-//	public Principal user(Principal principal) {
-//		return principal;
-//	}
+	@RequestMapping("/user")
+	public Principal user(Principal principal) {
 
-	@RequestMapping(value = "/user")
-	public String email(JSONObject jsonObject){
-       String m = jsonObject.toString();
-       return m;
+		return principal;
 	}
+
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
