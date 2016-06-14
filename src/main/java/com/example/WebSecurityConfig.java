@@ -16,7 +16,6 @@
 package com.example;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +49,9 @@ import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.social.facebook.api.Facebook;
+import org.springframework.social.facebook.api.User;
+import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.filter.CompositeFilter;
@@ -61,14 +63,33 @@ import org.springframework.web.util.WebUtils;
 @EnableOAuth2Client
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+//	Hay que separa a autenticacion via facebook con las demas
 	@Autowired
 	OAuth2ClientContext oauth2ClientContext;
-
 	@RequestMapping("/user")
-	public Principal user(Principal principal) {
-
-		return principal;
+	public User user(String accessToken){
+		Facebook facebook = new FacebookTemplate(accessToken);
+		User profile = facebook.userOperations().getUserProfile();
+		System.out.println("EL email es:" +profile.getEmail());
+		return profile;
 	}
+
+	//	@RequestMapping("/user")
+	//	public Principal user(Principal principal) {
+	//
+	//		return principal;
+	//	}
+
+//	if (auth2.isSignedIn.get()) {
+//		  var profile = auth2.currentUser.get().getBasicProfile();
+//		  console.log('ID: ' + profile.getId());
+//		  console.log('Full Name: ' + profile.getName());
+//		  console.log('Given Name: ' + profile.getGivenName());
+//		  console.log('Family Name: ' + profile.getFamilyName());
+//		  console.log('Image URL: ' + profile.getImageUrl());
+//		  console.log('Email: ' + profile.getEmail());
+//		}
+
 
 
 	@Override
